@@ -162,6 +162,7 @@ end
 
 p substrings("cat")
 p substrings("string")
+puts "hello"
 
 def subwords(word, dictionary)
     words_array = substrings(word)
