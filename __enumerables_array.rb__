@@ -1,0 +1,173 @@
+class Array
+    def my_each(&prc)
+        i = 0
+        while i < self.length
+            ele = self[i]  
+            prc.call(ele)
+            i += 1
+        end 
+        self
+    end
+
+    def my_select(&prc)
+        new_array = []
+        self.my_each do |ele|
+            new_array << ele if prc.call(ele)
+        end
+        new_array
+    end
+
+    def my_reject(&prc)
+        new_array = []
+        self.my_each do |ele|
+            new_array << ele if !prc.call(ele)
+        end
+        new_array
+    end
+
+    def my_any?(&prc)
+        self.each do |ele|
+            return true if prc.call(ele)
+        end
+        false
+    end
+
+    def my_all?(&prc)
+        self.each do |ele|
+            return false if !prc.call(ele)
+        end
+        true
+    end
+
+    def my_flatten()
+        # new_array = []
+
+        count = self.count {|ele| ele.length != 1 }
+        while count != 0 
+            self.map do |ele|
+                ele
+                my_flatten
+            end
+        end
+
+        # while self.length != 1
+        #     self.each { |ele| new_array << ele }
+
+        # end
+        # new_array
+    end
+
+    def my_zip(*args)
+        new_array = Array.new(self.length) {Array.new([])}
+        (0...self.length).each do |i|
+            new_array[i][0] = self[i]
+        end
+        p new_array
+
+        args.each_with_index do |ele, idx|
+            (0...new_array.length).each do |idx2|
+                p "idx2 " + idx2.to_s
+                if args[idx][idx2] == nil
+                    new_array[idx2] << nil
+                else
+                    new_array[idx2] << ele[idx2]
+                end
+                p new_array
+            end
+        end
+
+        new_array
+    end
+
+    def my_rotate(num=1)
+        new_array = self.map {|ele| ele}
+
+        if num > 0
+            while num > 0
+                new_array.push(new_array.shift)
+                num -= 1
+            end
+        end
+
+        if num < 0 
+            while num < 0
+                new_array.unshift(new_array.pop)
+                num += 1
+            end
+        end
+        new_array
+    end
+
+    def my_join(separator="")
+        new_string = ""
+        self.each_with_index do |ele, idx|
+            if idx == self.length-1 
+                new_string += ele.to_s
+            else
+                new_string += ele.to_s + separator
+            end
+        end
+        new_string
+    end
+
+    def my_reverse()
+        new_array=[]
+        (0..self.length-1).reverse_each do |ele|
+            new_array << self[ele]
+        end
+        new_array
+    end
+
+    def bubble_sort!(&prc)
+        sorted = false
+
+        while !sorted
+            sorted = true
+            self.each_with_index do |ele, idx|
+                
+            end
+
+        end
+
+    end
+  
+    def bubble_sort(&prc)
+
+    end
+
+end
+
+def factors(num)
+    factors_array = []
+    (1..num).each do |factor|
+        factors_array << factor if num % factor == 0
+    end
+    factors_array
+end
+
+def substrings(string)
+    new_array = []
+    string.each_char.with_index do |char, idx1|
+        new_array << char
+        new_string = char
+        string.each_char.with_index do |char2, idx2|
+            if idx2 > idx1
+                new_string += char2
+                new_array<< new_string
+            end
+        end
+    end
+    new_array
+end
+
+p substrings("cat")
+p substrings("string")
+
+def subwords(word, dictionary)
+    words_array = substrings(word)
+    words_array.select {|word| dictionary.include?(word)}
+end
+
+p subwords('bootcamp', ["boot", "camp", "pea", "string"])
+
+
